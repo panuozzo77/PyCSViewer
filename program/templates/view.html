@@ -1,0 +1,106 @@
+<!--
+<!DOCTYPE html>
+<html>
+<body>
+    <button onclick="location.href='/'">Choose File</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page - 1 }}/{{ rows_per_page }}'">Previous Page</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page + 1 }}/{{ rows_per_page }}'">Next Page</button>
+    {{ table | safe }}
+    <button onclick="location.href='/'">Choose File</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page - 1 }}/{{ rows_per_page }}'">Previous Page</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page + 1 }}/{{ rows_per_page }}'">Next Page</button>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fixed-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #fff; /* Change the background color to white */
+        color: #000; /* Change the text color to black */
+        margin-left: 44px;
+        z-index: 10;
+        }
+
+        .fixed-header th {
+            background-color: #f2f2f2; /* Change the background color of the header cells */
+            border-bottom: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2px; /* Adjust as needed */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .content {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="fixed-header"></div>
+<!-- Your existing HTML content -->
+<div class="content">
+    <button onclick="location.href='/';">Choose File</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page - 1 }}/{{ rows_per_page }}'">Previous Page</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page + 1 }}/{{ rows_per_page }}'">Next Page</button>
+    <div id="table-container">
+        {{ table | safe }}
+    </div>
+    <button onclick="location.href='/';">Choose File</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page - 1 }}/{{ rows_per_page }}'">Previous Page</button>
+    <button onclick="location.href='/view/{{ filename }}/{{ page + 1 }}/{{ rows_per_page }}'">Next Page</button>
+</div>
+
+<script>
+    window.addEventListener('scroll', function() {
+        var fixedHeader = document.querySelector('.fixed-header');
+        var content = document.querySelector('.content');
+        var tableContainer = document.getElementById('table-container');
+        if (window.scrollY > content.offsetTop) {
+            fixedHeader.style.display = 'block';
+            // Create a fixed header using the existing <thead> content and applying styles
+            var table = tableContainer.querySelector('table');
+            var thead = table.querySelector('thead');
+            if (thead && !fixedHeader.querySelector('thead')) {
+                var fixedTable = document.createElement('table');
+                fixedTable.innerHTML = '<thead>' + thead.innerHTML + '</thead>';
+                fixedTable.style.borderCollapse = 'collapse';
+                fixedHeader.innerHTML = fixedTable.outerHTML;
+            }
+        } else {
+            fixedHeader.style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+
+
+
